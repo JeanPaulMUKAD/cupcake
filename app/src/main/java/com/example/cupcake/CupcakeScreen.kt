@@ -66,7 +66,7 @@ enum class CupcakeScreen(@StringRes val title: Int) {
 @Composable
 fun CupcakeAppBar(
     currentScreen: CupcakeScreen,
-    canNavigateBack: false,
+    canNavigateBack: Boolean = false,
     navigateUp: () -> Unit = {},
     modifier: Modifier = Modifier
 
@@ -99,8 +99,9 @@ fun CupcakeApp(
     Scaffold(
         topBar = {
             CupcakeAppBar(
-                canNavigateBack = false,
-                navigateUp = { /* TODO: implement back navigation */ })
+                canNavigateBack = navController.previousBackStackEntry != null,
+                navigateUp = { navController.navigateUp() }
+            )
         }
     ) { innerPadding ->
         val uiState by viewModel.uiState.collectAsState()
